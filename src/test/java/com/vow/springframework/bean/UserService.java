@@ -10,8 +10,8 @@ public class UserService {
 
     private UserDao userDao;
 
-    public void queryUserInfo() {
-        System.out.println(userDao.queryUserName(userId));
+    public String queryUserInfo() {
+        return userDao.queryUserName(userId);
     }
 
     public String getUserId() {

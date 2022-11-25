@@ -1,5 +1,6 @@
 package com.vow.springframework;
 
+import cn.hutool.core.io.IoUtil;
 import com.vow.springframework.bean.UserDao;
 import com.vow.springframework.bean.UserService;
 import com.vow.springframework.beans.PropertyValue;
@@ -8,10 +9,16 @@ import com.vow.springframework.beans.factory.BeanFactory;
 import com.vow.springframework.beans.factory.config.BeanDefinition;
 import com.vow.springframework.beans.factory.config.BeanReference;
 import com.vow.springframework.beans.factory.support.DefaultListableBeanFactory;
+import com.vow.springframework.beans.factory.xml.XmlBeanDefinitionReader;
+import com.vow.springframework.core.io.DefaultResourceLoader;
+import com.vow.springframework.core.io.Resource;
 import net.sf.cglib.proxy.Enhancer;
 import net.sf.cglib.proxy.NoOp;
+import org.junit.Before;
 import org.junit.Test;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 
@@ -41,6 +48,49 @@ public class AppTest {
         // 5.获取userService单例对象
         UserService userService = (UserService) beanFactory.getBean("userService");
         userService.queryUserInfo();
+    }
+
+    private DefaultResourceLoader resourceLoader;
+
+    @Before
+    public void init() {
+        resourceLoader = new DefaultResourceLoader();
+    }
+
+    @Test
+    public void test_classpath() throws IOException {
+        Resource resource = resourceLoader.getResource("classpath:important.properties");
+        InputStream inputStream = resource.getInputStream();
+        String s = IoUtil.readUtf8(inputStream);
+        System.out.println(s);
+    }
+
+    @Test
+    public void test_file() throws IOException {
+        Resource resource = resourceLoader.getResource("src/test/resources/important.properties");
+        InputStream inputStream = resource.getInputStream();
+        System.out.println(IoUtil.readUtf8(inputStream));
+    }
+
+    @Test
+    public void test_url() throws IOException {
+        Resource resource = resourceLoader.getResource("https://github.com/vow0824/spring-demo/blob/main/src/test/resources/important.properties");
+        InputStream inputStream = resource.getInputStream();
+        System.out.println(IoUtil.readUtf8(inputStream));
+    }
+
+    @Test
+    public void test_xml() {
+        // 1.初始化BeanFactory
+        DefaultListableBeanFactory beanFactory = new DefaultListableBeanFactory();
+
+        // 2.读取xml文件注册bean
+        XmlBeanDefinitionReader reader = new XmlBeanDefinitionReader(beanFactory);
+        reader.loadBeanDefinitions("classpath:spring.xml");
+
+        // 3.获取bean对象调用方法
+        UserService userService = beanFactory.getBean("userService", UserService.class);
+        System.out.println(userService.queryUserInfo());
     }
 
 

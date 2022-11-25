@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans>
+
+    <bean id="userDao" class="com.vow.springframework.bean.UserDao"/>
+
+    <bean id="userService" class="com.vow.springframework.bean.UserService">
+        <property name="userId" value="103"/>
+        <property name="userDao" ref="userDao"/>
+    </bean>
+
+</beans>
