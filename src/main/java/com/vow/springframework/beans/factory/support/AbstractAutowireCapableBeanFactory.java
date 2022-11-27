@@ -4,6 +4,7 @@ import cn.hutool.core.bean.BeanUtil;
 import com.vow.springframework.beans.BeansException;
 import com.vow.springframework.beans.PropertyValue;
 import com.vow.springframework.beans.PropertyValues;
+import com.vow.springframework.beans.factory.config.AutowireCapableBeanFactory;
 import com.vow.springframework.beans.factory.config.BeanDefinition;
 import com.vow.springframework.beans.factory.config.BeanReference;
 
@@ -13,7 +14,7 @@ import java.lang.reflect.Constructor;
  * @author: wushaopeng
  * @date: 2022/11/22 16:06
  */
-public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFactory{
+public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFactory implements AutowireCapableBeanFactory {
 
     private InstantiationStrategy instantiationStrategy = new CglibSubclassingInstantiationStrategy();
 
@@ -70,5 +71,31 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 
     public void setInstantiationStrategy(InstantiationStrategy instantiationStrategy) {
         this.instantiationStrategy = instantiationStrategy;
+    }
+
+    private Object InitializeBean(String beanName, Object bean, BeanDefinition beanDefinition){
+        // 1.执行BeanPostProcessorBefore方法
+        Object wrappedBean = applyBeanPostProcessorsBeforeInitiatelization(bean, beanName);
+
+        // 2.待完成内容：invokeInitMethods(beanName, wrappedBean, beanDefinition)
+        invokeInitMethods(beanName, wrappedBean, beanDefinition);
+
+        // 3.执行BeanPostProcessorAfter方法
+        applyBeanPostProcessorsAfterInitiatelization(wrappedBean, beanName);
+        return wrappedBean;
+    }
+
+    private void invokeInitMethods(String beanName, Object wrappedBean, BeanDefinition beanDefinition) {
+
+    }
+
+    @Override
+    public Object applyBeanPostProcessorsAfterInitiatelization(Object existingBean, String beanName) throws BeansException {
+        return null;
+    }
+
+    @Override
+    public Object applyBeanPostProcessorsBeforeInitiatelization(Object existingBean, String beanName) throws BeansException {
+        return null;
     }
 }

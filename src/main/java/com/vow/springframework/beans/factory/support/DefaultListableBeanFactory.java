@@ -3,6 +3,7 @@ package com.vow.springframework.beans.factory.support;
 import com.vow.springframework.beans.BeansException;
 import com.vow.springframework.beans.factory.ConfigurableListableBeanFactory;
 import com.vow.springframework.beans.factory.config.BeanDefinition;
+import com.vow.springframework.beans.factory.config.BeanPostProcessor;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -22,6 +23,11 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
             throw new BeansException("No bean named '" + beanName + "' is defined");
         }
         return beanDefinition;
+    }
+
+    @Override
+    public void preInstantiateSingletons() throws BeansException {
+        beanDefinitionMap.keySet().forEach(this::getBean);
     }
 
     @Override
