@@ -1,10 +1,13 @@
 package com.vow.springframework.bean;
 
+import com.vow.springframework.beans.factory.DisposableBean;
+import com.vow.springframework.beans.factory.InitializingBean;
+
 /**
  * @author: wushaopeng
  * @date: 2022/11/22 15:20
  */
-public class UserService {
+public class UserService implements DisposableBean, InitializingBean {
 
     private String userId;
 
@@ -48,5 +51,15 @@ public class UserService {
 
     public void setLocation(String location) {
         this.location = location;
+    }
+
+    @Override
+    public void destroy() throws Exception {
+        System.out.println("execute 'destroy' method of UserService");
+    }
+
+    @Override
+    public void afterPropertiesSet() throws Exception {
+        System.out.println("execute 'afterPropertiesSet' method of UserService");
     }
 }

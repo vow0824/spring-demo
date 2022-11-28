@@ -10,8 +10,6 @@ import com.vow.springframework.beans.factory.config.BeanDefinition;
 import com.vow.springframework.beans.factory.config.BeanReference;
 import com.vow.springframework.beans.factory.support.DefaultListableBeanFactory;
 import com.vow.springframework.beans.factory.xml.XmlBeanDefinitionReader;
-import com.vow.springframework.common.MyBeanFactoryPostProcessor;
-import com.vow.springframework.common.MyBeanPostProcessor;
 import com.vow.springframework.context.support.ClassPathXmlApplicationContext;
 import com.vow.springframework.core.io.DefaultResourceLoader;
 import com.vow.springframework.core.io.Resource;
@@ -32,31 +30,10 @@ import java.lang.reflect.InvocationTargetException;
 public class AppTest {
 
     @Test
-    public void test_BranchFactoryPostProcessorAndBeanPostProcessor() {
-        // 1.初始化BeanFactory
-        DefaultListableBeanFactory beanFactory = new DefaultListableBeanFactory();
-
-        // 2.读取配置文件&注册bean
-        XmlBeanDefinitionReader xmlBeanDefinitionReader = new XmlBeanDefinitionReader(beanFactory);
-        xmlBeanDefinitionReader.loadBeanDefinitions("classpath:spring.xml");
-
-        // 3.BeanDefinition加载完成&Bean实例化之前，修改BeanDefinition的属性值
-        MyBeanFactoryPostProcessor myBeanFactoryPostProcessor = new MyBeanFactoryPostProcessor();
-        myBeanFactoryPostProcessor.postProcessBeanFactory(beanFactory);
-
-        // 4.Bean实例化之后，修改bean属性信息
-        MyBeanPostProcessor myBeanPostProcessor = new MyBeanPostProcessor();
-        beanFactory.addBeanPostProcessor(myBeanPostProcessor);
-
-        // 5.获取bean对象调用方法
-        UserService userService = beanFactory.getBean("userService", UserService.class);
-        System.out.println(userService.queryUserInfo());
-    }
-
-    @Test
     public void test_xml() {
         // 1.初始化BeanFactory
-        ClassPathXmlApplicationContext applicationContext = new ClassPathXmlApplicationContext("classpath:springPostProcessor.xml");
+        ClassPathXmlApplicationContext applicationContext = new ClassPathXmlApplicationContext("classpath:spring.xml");
+        applicationContext.registerShutdownHook();
 
         // 2.获取bean对象调用方法
         UserService userService = applicationContext.getBean("userService", UserService.class);

@@ -10,10 +10,22 @@ import java.util.Map;
 public class UserDao {
     private static Map<String, String> map = new HashMap<>();
 
-    static {
+    /*static {
         map.put("101", "hello");
         map.put("102", "world");
         map.put("103", "vow");
+    }*/
+
+    public void initDataMethod() {
+        map.put("101", "hello");
+        map.put("102", "world");
+        map.put("103", "vow");
+        System.out.println("execute 'init-method' of UserDao");
+    }
+
+    public void destroyDataMethod() {
+        System.out.println("execute 'destroy-method' of UserDao");
+        map.clear();
     }
 
     public String queryUserName(String userId) {
