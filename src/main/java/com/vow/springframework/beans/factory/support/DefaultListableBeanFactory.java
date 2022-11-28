@@ -62,6 +62,7 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
         Map<String, T> result = new HashMap<>();
         beanDefinitionMap.forEach((beanName, beanDefinition) -> {
             Class beanClass = beanDefinition.getBeanClass();
+            // isAssignableFrom 判断当前的Class对象所表示的类，是不是参数中传递的Class对象所表示的类的父类，超接口，或者是相同的类型。
             if (type.isAssignableFrom(beanClass)) {
                 result.put(beanName, (T) getBean(beanName));
             }

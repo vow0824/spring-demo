@@ -12,7 +12,7 @@ public interface AutowireCapableBeanFactory extends BeanFactory {
      * @return
      * @throws BeansException
      */
-    Object applyBeanPostProcessorsBeforeInitiatelization(Object existingBean, String beanName) throws BeansException;
+    Object applyBeanPostProcessorsBeforeInitialization(Object existingBean, String beanName) throws BeansException;
 
     /**
      * 执行 BeanPostProcessors 接口实现类的 postProcessAfterInitialization 方法
@@ -21,5 +21,5 @@ public interface AutowireCapableBeanFactory extends BeanFactory {
      * @return
      * @throws BeansException
      */
-    Object applyBeanPostProcessorsAfterInitiatelization(Object existingBean, String beanName) throws BeansException;
+    Object applyBeanPostProcessorsAfterInitialization(Object existingBean, String beanName) throws BeansException;
 }

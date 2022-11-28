@@ -58,7 +58,7 @@ public class AppTest {
         // 1.初始化BeanFactory
         ClassPathXmlApplicationContext applicationContext = new ClassPathXmlApplicationContext("classpath:springPostProcessor.xml");
 
-        // 2.获取bena对象调用方法
+        // 2.获取bean对象调用方法
         UserService userService = applicationContext.getBean("userService", UserService.class);
         System.out.println(userService.queryUserInfo());
     }
