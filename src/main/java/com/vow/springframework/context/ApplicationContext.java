@@ -1,6 +1,8 @@
 package com.vow.springframework.context;
 
+import com.vow.springframework.beans.factory.HierarchicalBeanFactory;
 import com.vow.springframework.beans.factory.ListableBeanFactory;
+import com.vow.springframework.core.io.ResourceLoader;
 
 /**
  * Central interface to provide configuration for an application.
@@ -9,5 +11,5 @@ import com.vow.springframework.beans.factory.ListableBeanFactory;
  *
  * 应用上下文
  */
-public interface ApplicationContext extends ListableBeanFactory {
+public interface ApplicationContext extends ListableBeanFactory, HierarchicalBeanFactory, ResourceLoader, ApplicationEventPublisher {
 }
