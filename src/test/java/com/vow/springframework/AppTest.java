@@ -17,6 +17,7 @@ import net.sf.cglib.proxy.Enhancer;
 import net.sf.cglib.proxy.NoOp;
 import org.junit.Before;
 import org.junit.Test;
+import org.openjdk.jol.info.ClassLayout;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -30,7 +31,23 @@ import java.lang.reflect.InvocationTargetException;
 public class AppTest {
 
     @Test
-    public void test_xml() {
+    public void test_prototype() {
+        // 1.初始化BeanFactory
+        ClassPathXmlApplicationContext applicationContext = new ClassPathXmlApplicationContext("classpath:spring.xml");
+        applicationContext.registerShutdownHook();
+
+        // 2.获取bean对象调用方法
+        UserService userService = applicationContext.getBean("userService", UserService.class);
+        UserService userService1 = applicationContext.getBean("userService", UserService.class);
+        System.out.println(userService);
+        System.out.println(userService1);
+
+        System.out.println(userService + "十六进制哈希：" + Integer.toHexString(userService.hashCode()));
+        System.out.println(ClassLayout.parseInstance(userService).toPrintable());
+    }
+
+    @Test
+    public void test_factory_bean() {
         // 1.初始化BeanFactory
         ClassPathXmlApplicationContext applicationContext = new ClassPathXmlApplicationContext("classpath:spring.xml");
         applicationContext.registerShutdownHook();
@@ -38,8 +55,5 @@ public class AppTest {
         // 2.获取bean对象调用方法
         UserService userService = applicationContext.getBean("userService", UserService.class);
         System.out.println(userService.queryUserInfo());
-
-        System.out.println("ApplicationContextAware:" + userService.getApplicationContext());
-        System.out.println("BeanFactoryAware:" + userService.getBeanFactory());
     }
 }
