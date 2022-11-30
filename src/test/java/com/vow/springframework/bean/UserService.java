@@ -5,54 +5,31 @@ import com.vow.springframework.beans.factory.*;
 import com.vow.springframework.context.ApplicationContext;
 import com.vow.springframework.context.ApplicationContextAware;
 
+import java.util.Random;
+
 /**
  * @author: wushaopeng
  * @date: 2022/11/22 15:20
  */
-public class UserService {
+public class UserService implements IUserService {
 
-    private String userId;
-
-    private UserDao userDao;
-
-    private String company;
-
-    private String location;
-
+    @Override
     public String queryUserInfo() {
-        return userDao.queryUserName(userId) + "," + company + "," + location;
+        try {
+            Thread.sleep(new Random(1).nextInt(100));
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+        return "user:vow,hangzhou";
     }
 
-    public String getUserId() {
-        return userId;
+    @Override
+    public String register(String userName) {
+        try {
+            Thread.sleep(new Random(1).nextInt(100));
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+        return "register user：" + userName + "success";
     }
-
-    public void setUserId(String userId) {
-        this.userId = userId;
-    }
-
-    public UserDao getUserDao() {
-        return userDao;
-    }
-
-    public void setUserDao(UserDao userDao) {
-        this.userDao = userDao;
-    }
-
-    public String getCompany() {
-        return company;
-    }
-
-    public void setCompany(String company) {
-        this.company = company;
-    }
-
-    public String getLocation() {
-        return location;
-    }
-
-    public void setLocation(String location) {
-        this.location = location;
-    }
-
 }
