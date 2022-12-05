@@ -2,6 +2,8 @@ package com.vow.springframework.bean;
 
 import com.vow.springframework.beans.BeansException;
 import com.vow.springframework.beans.factory.*;
+import com.vow.springframework.beans.factory.annotation.Autowired;
+import com.vow.springframework.beans.factory.annotation.Value;
 import com.vow.springframework.context.ApplicationContext;
 import com.vow.springframework.context.ApplicationContextAware;
 import com.vow.springframework.stereotype.Component;
@@ -15,7 +17,11 @@ import java.util.Random;
 @Component("userService")
 public class UserService implements IUserService {
 
+    @Value("${token}")
     private String token;
+
+    @Autowired
+    private UserDao userDao;
 
     public String getToken() {
         return token;
@@ -39,7 +45,7 @@ public class UserService implements IUserService {
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
-        return "user:vow,hangzhou";
+        return userDao.queryUserInfo("103") + "," + token;
     }
 
     @Override
