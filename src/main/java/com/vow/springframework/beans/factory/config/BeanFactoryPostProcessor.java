@@ -3,6 +3,8 @@ package com.vow.springframework.beans.factory.config;
 import com.vow.springframework.beans.BeansException;
 import com.vow.springframework.beans.factory.ConfigurableListableBeanFactory;
 
+import java.io.IOException;
+
 /**
  * Allows for custom modification of an application context's bean definitions,
  * adapting the bean property values of the context's underlying bean factory.
@@ -17,5 +19,5 @@ public interface BeanFactoryPostProcessor {
      * @param beanFactory
      * @throws BeansException
      */
-    void postProcessBeanFactory(ConfigurableListableBeanFactory beanFactory) throws BeansException;
+    void postProcessBeanFactory(ConfigurableListableBeanFactory beanFactory) throws BeansException, IOException;
 }
