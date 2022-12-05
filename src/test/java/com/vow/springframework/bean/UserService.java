@@ -4,6 +4,7 @@ import com.vow.springframework.beans.BeansException;
 import com.vow.springframework.beans.factory.*;
 import com.vow.springframework.context.ApplicationContext;
 import com.vow.springframework.context.ApplicationContextAware;
+import com.vow.springframework.stereotype.Component;
 
 import java.util.Random;
 
@@ -11,7 +12,25 @@ import java.util.Random;
  * @author: wushaopeng
  * @date: 2022/11/22 15:20
  */
+@Component("userService")
 public class UserService implements IUserService {
+
+    private String token;
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
+    }
+
+    @Override
+    public String toString() {
+        return "UserService{" +
+                "token='" + token + '\'' +
+                '}';
+    }
 
     @Override
     public String queryUserInfo() {

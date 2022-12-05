@@ -31,66 +31,20 @@ import java.lang.reflect.Proxy;
  */
 public class AppTest {
 
-    private AdvisedSupport advisedSupport;
-
-    @Before
-    public void init() {
-        // 目标对象
-        IUserService userService = new UserService();
-        // 组装代理信息
-        advisedSupport = new AdvisedSupport();
-        advisedSupport.setTargetSource(new TargetSource(userService));
-        // 以自定义拦截器的形式拦截
-        advisedSupport.setMethodInterceptor(new UserServiceInterceptor());
-        advisedSupport.setMethodMatcher(new AspectJExpressionPointcut("execution(* com.vow.springframework.bean.IUserService.*(..))"));
-    }
-
     @Test
-    public void test_proxy_factory() {
-        advisedSupport.setProxyTargetClass(false);  // false/true   jdk动态代理/cglib动态代理
-        IUserService proxy = (IUserService) new ProxyFactory(advisedSupport).getProxy();
-
-        System.out.println(proxy.queryUserInfo());
-    }
-
-    @Test
-    public void test_beforeAdvice() {
-        UserServiceBeforeAdvice userServiceBeforeAdvice = new UserServiceBeforeAdvice();
-        MethodBeforeAdviceInterceptor methodBeforeAdviceInterceptor = new MethodBeforeAdviceInterceptor(userServiceBeforeAdvice);
-        // 以advice的形式拦截
-        advisedSupport.setMethodInterceptor(methodBeforeAdviceInterceptor);
-        IUserService proxy = (IUserService) new ProxyFactory(advisedSupport).getProxy();
-
-        System.out.println(proxy.queryUserInfo());
-    }
-
-    @Test
-    public void test_advisor() {
-        // 目标对象
-        IUserService userService = new UserService();
-
-        AspectJExpressionPointcutAdvisor advisor = new AspectJExpressionPointcutAdvisor();
-        advisor.setExpression("execution(* com.vow.springframework.bean.IUserService.*(..))");
-        advisor.setAdvice(new MethodBeforeAdviceInterceptor(new UserServiceBeforeAdvice()));
-
-        ClassFilter classFilter = advisor.getPointcut().getClassFilter();
-        if (classFilter.matches(userService.getClass())) {
-            AdvisedSupport support = new AdvisedSupport();
-            support.setTargetSource(new TargetSource(userService));
-            support.setProxyTargetClass(true);
-            support.setMethodInterceptor((MethodInterceptor) advisor.getAdvice());
-            support.setMethodMatcher(advisor.getPointcut().getMethodMatcher());
-
-            IUserService proxy = (IUserService) new ProxyFactory(support).getProxy();
-            System.out.println(proxy.queryUserInfo());
-        }
-    }
-
-    @Test
-    public void test_aop() {
-        ClassPathXmlApplicationContext applicationContext = new ClassPathXmlApplicationContext("classpath:spring.xml");
-
+    public void test_scan() {
+        ClassPathXmlApplicationContext applicationContext = new ClassPathXmlApplicationContext("classpath:spring-scan.xml");
         IUserService userService = applicationContext.getBean("userService", IUserService.class);
+
         System.out.println(userService.queryUserInfo());
     }
+
+    @Test
+    public void test_property() {
+        ClassPathXmlApplicationContext applicationContext = new ClassPathXmlApplicationContext("classpath:spring-property.xml");
+        IUserService userService = applicationContext.getBean("userService", IUserService.class);
+
+        System.out.println(userService.toString());
+    }
+
 }

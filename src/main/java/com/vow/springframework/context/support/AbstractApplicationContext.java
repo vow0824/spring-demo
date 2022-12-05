@@ -14,6 +14,7 @@ import com.vow.springframework.context.event.ContextRefreshedEvent;
 import com.vow.springframework.context.event.SimpleApplicationEventMulticaster;
 import com.vow.springframework.core.io.DefaultResourceLoader;
 
+import java.io.IOException;
 import java.util.Collection;
 import java.util.Map;
 
