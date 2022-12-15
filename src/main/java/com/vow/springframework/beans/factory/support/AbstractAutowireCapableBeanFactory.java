@@ -10,6 +10,7 @@ import com.vow.springframework.beans.factory.config.*;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
+import java.util.List;
 
 /**
  * Abstract bean factory superclass that implements default bean creation,
@@ -31,9 +32,10 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
             // 判断是否返回代理bean对象
             bean = resolveBeforeInstantiation(beanName, beanDefinition);
             if (null != bean) return bean;
-
             // 实例化bean
             bean = createBeanInstance(beanDefinition, beanName, args);
+            // 在设置bean属性之前，允许BeanPostProcessor修改属性值
+            applyBeanPostProcessorsBeforeApplyingPropertyValues(beanName, bean, beanDefinition);
             // 给bean填充属性
             applyPropertyValues(beanName, bean, beanDefinition);
             // 执行bean的初始化方法和BeanPostProcessor的前置和后置方法
@@ -58,6 +60,19 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
             bean =  applyBeanPostProcessorsAfterInitialization(bean, beanName);
         }
         return bean;
+    }
+
+    public void applyBeanPostProcessorsBeforeApplyingPropertyValues(String beanName, Object bean, BeanDefinition beanDefinition) {
+        for (BeanPostProcessor beanPostProcessor : getBeanPostProcessors()) {
+            if (beanPostProcessor instanceof InstantiationAwareBeanPostProcessor) {
+                PropertyValues pvs = ((InstantiationAwareBeanPostProcessor) beanPostProcessor).postProcessPropertyValues(beanDefinition.getPropertyValues(), bean, beanName);
+                if (null != pvs) {
+                    for (PropertyValue propertyValue : pvs.getPropertyValues()) {
+                        beanDefinition.getPropertyValues().addPropertyValue(propertyValue);
+                    }
+                }
+            }
+        }
     }
 
     public Object applyBeanPostProcessorsBeforeInitialization(Class<?> beanClass, String beanName) throws BeansException {
