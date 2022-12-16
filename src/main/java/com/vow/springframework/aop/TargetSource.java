@@ -1,5 +1,7 @@
 package com.vow.springframework.aop;
 
+import com.vow.springframework.util.ClassUtils;
+
 /**
  * @author: wushaopeng
  * @date: 2022/11/30 10:21
@@ -20,7 +22,9 @@ public class TargetSource {
      * @return the type of targets returned by this {@link TargetSource}
      */
     public Class<?>[] getTargetClass() {
-        return this.target.getClass().getInterfaces();
+        Class<?> clazz = this.target.getClass();
+        clazz = ClassUtils.isCglibProxyClass(clazz) ? clazz.getSuperclass() : clazz;
+        return clazz.getInterfaces();
     }
 
     /**

@@ -32,7 +32,7 @@ import java.lang.reflect.Proxy;
 public class AppTest {
 
     @Test
-    public void test_scan() {
+    public void test_autoProxy() {
         ClassPathXmlApplicationContext applicationContext = new ClassPathXmlApplicationContext("classpath:spring.xml");
         IUserService userService = applicationContext.getBean("userService", IUserService.class);
 

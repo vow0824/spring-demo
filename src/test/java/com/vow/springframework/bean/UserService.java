@@ -17,11 +17,11 @@ import java.util.Random;
 @Component("userService")
 public class UserService implements IUserService {
 
-    @Value("${token}")
+    //@Value("${token}")
     private String token;
 
-    @Autowired
-    private UserDao userDao;
+    /*@Autowired
+    private UserDao userDao;*/
 
     public String getToken() {
         return token;
@@ -45,7 +45,8 @@ public class UserService implements IUserService {
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
-        return userDao.queryUserInfo("103") + "," + token;
+        //return userDao.queryUserInfo("103") + "," + token;
+        return  "vow," + token;
     }
 
     @Override
