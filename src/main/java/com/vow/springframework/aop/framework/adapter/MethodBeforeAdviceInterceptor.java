@@ -1,4 +1,4 @@
-package com.vow.springframework.aop.framework.adaper;
+package com.vow.springframework.aop.framework.adapter;
 
 import com.vow.springframework.aop.MethodBeforeAdvice;
 import org.aopalliance.intercept.MethodInterceptor;
