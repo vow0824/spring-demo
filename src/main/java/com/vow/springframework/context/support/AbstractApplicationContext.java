@@ -12,6 +12,7 @@ import com.vow.springframework.context.event.ApplicationEventMulticaster;
 import com.vow.springframework.context.event.ContextClosedEvent;
 import com.vow.springframework.context.event.ContextRefreshedEvent;
 import com.vow.springframework.context.event.SimpleApplicationEventMulticaster;
+import com.vow.springframework.core.convert.ConversionService;
 import com.vow.springframework.core.io.DefaultResourceLoader;
 
 import java.io.IOException;
@@ -81,11 +82,25 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader i
         // 7.注册事件监听器
         registerApplicationListeners();
 
-        // 8.提前实例化单例bean对象
-        beanFactory.preInstantiateSingletons();
+        // 8.设置类型转换器、提前实例化单例bean对象
+        finishBeanFactoryInitialization(beanFactory);
 
         // 9.发布容器刷新完成事件
         finishRefresh();
+    }
+
+    // 设置类型转换器、提前实例化单例bean对象
+    protected void finishBeanFactoryInitialization(ConfigurableListableBeanFactory beanFactory) {
+        // 设置类型转换器
+        if (beanFactory.containsBean("conversionService")) {
+            Object conversionService = beanFactory.getBean("conversionService");
+            if (conversionService instanceof ConversionService) {
+                beanFactory.setConversionService((ConversionService) conversionService);
+            }
+        }
+
+        // 提前实例化单例bean对象
+        beanFactory.preInstantiateSingletons();
     }
 
     private void invokeBeanFactoryPostProcessor(ConfigurableListableBeanFactory beanFactory) {
@@ -122,6 +137,11 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader i
     @Override
     public void publishEvent(ApplicationEvent event) {
         applicationEventMulticaster.multicastEvent(event);
+    }
+
+    @Override
+    public boolean containsBean(String name) {
+        return getBeanFactory().containsBean(name);
     }
 
     @Override

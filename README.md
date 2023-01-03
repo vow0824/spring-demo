@@ -17,7 +17,7 @@ Studying of spring framework.
 14.通过注解注入属性信息                     annotation_value
 15.给代理对象设置属性注入                   autowire_proxy
 16.通过三级缓存解决循环依赖                 solve_cycle_dependency
-17.数据类型转换
+17.数据类型转换                           data_type_conversion
 18.JDBC 功能整合
 19.事务处理
 20.框架实现
