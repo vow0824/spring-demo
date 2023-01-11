@@ -61,7 +61,7 @@ public class GenericConversionService implements ConversionService, ConverterReg
         ParameterizedType parameterizedType = (ParameterizedType) types[0];
         Type[] actualTypeArguments = parameterizedType.getActualTypeArguments();
         Class<?> sourceType = (Class<?>) actualTypeArguments[0];
-        Class<?> targetType = (Class<?>) actualTypeArguments[0];
+        Class<?> targetType = (Class<?>) actualTypeArguments[1];
         return new GenericConverter.ConvertiblePair(sourceType, targetType);
     }
 
