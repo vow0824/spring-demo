@@ -1,11 +1,12 @@
 package com.vow.springframework;
 
-import com.vow.springframework.bean.Husband;
 import com.vow.springframework.context.support.ClassPathXmlApplicationContext;
-import com.vow.springframework.convert.StringToIntegerConverter;
-import com.vow.springframework.core.convert.converter.Converter;
-import com.vow.springframework.core.convert.support.StringToNumberConverterFactory;
+import com.vow.springframework.jdbc.core.JdbcTemplate;
+import org.junit.Before;
 import org.junit.Test;
+
+import java.util.List;
+import java.util.Map;
 
 /**
  * @author: wushaopeng
@@ -13,29 +14,24 @@ import org.junit.Test;
  */
 public class AppTest {
 
-    @Test
-    public void test_convert() {
+    private JdbcTemplate jdbcTemplate;
+
+    @Before
+    public void init() {
         ClassPathXmlApplicationContext applicationContext = new ClassPathXmlApplicationContext("classpath:spring.xml");
-        Husband husband = applicationContext.getBean("husband", Husband.class);
-        System.out.println("测试结果：" + husband);
+        jdbcTemplate = applicationContext.getBean(JdbcTemplate.class);
     }
 
     @Test
-    public void test_StringToIntegerConverter() {
-        StringToIntegerConverter converter = new StringToIntegerConverter();
-        Integer num = converter.convert("1234");
-        System.out.println("测试结果：" + num);
+    public void test_execute() {
+        jdbcTemplate.execute("insert into user (id, userId, userHead, createTime, updateTime) values (1, '184172133','01_50', now(), now())");
     }
 
     @Test
-    public void test_StringToNumberConverterFactory() {
-        StringToNumberConverterFactory converterFactory = new StringToNumberConverterFactory();
-
-        Converter<String, Integer> stringToIntegerConverter = converterFactory.getConverter(Integer.class);
-        System.out.println("测试结果：" + stringToIntegerConverter.convert("1234"));
-
-        Converter<String, Long> stringToLongConverter = converterFactory.getConverter(Long.class);
-        System.out.println("测试结果：" + stringToLongConverter.convert("1234"));
+    public void test_query() {
+        List<Map<String, Object>> allResult = jdbcTemplate.queryForList("select * from user");
+        for (Map<String, Object> objectMap : allResult) {
+            System.out.println("测试结果：" + objectMap);
+        }
     }
-
 }
