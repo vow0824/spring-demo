@@ -1,5 +1,6 @@
 package com.vow.springframework.jdbc.core;
 
+import com.vow.springframework.jdbc.UncategorizedSQLException;
 import com.vow.springframework.jdbc.datasource.DataSourceUtils;
 import com.vow.springframework.jdbc.support.JdbcAccessor;
 
@@ -75,7 +76,15 @@ public class JdbcTemplate extends JdbcAccessor implements JdbcOperations {
             applyStatementSettings(statement);
             return action.doInStatement(statement);
         } catch (SQLException e) {
-            throw new RuntimeException("StatementCallback", e);
+            throw new UncategorizedSQLException("ConnectionCallback", getSql(action), e);
+        }
+    }
+
+    private static String getSql(Object sqlProvider) {
+        if (sqlProvider instanceof SqlProvider) {
+            return ((SqlProvider) sqlProvider).getSql();
+        } else {
+            return null;
         }
     }
 

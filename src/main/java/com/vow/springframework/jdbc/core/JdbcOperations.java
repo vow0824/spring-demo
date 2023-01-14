@@ -10,7 +10,7 @@ import java.util.Map;
  */
 public interface JdbcOperations {
 
-    <T> T execute(StatementCallback<T> action) throws Exception;
+    <T> T execute(StatementCallback<T> action);
 
     void execute(String sql);
 
