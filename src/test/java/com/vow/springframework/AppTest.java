@@ -49,7 +49,7 @@ public class AppTest {
         AdvisedSupport advisedSupport = new AdvisedSupport();
         advisedSupport.setTargetSource(new TargetSource(jdbcService));
         advisedSupport.setMethodInterceptor(interceptor);
-        advisedSupport.setMethodMatcher(new AspectJExpressionPointcut("execution(* cn.bugstack.springframework.test.bean.JdbcService.*(..))"));
+        advisedSupport.setMethodMatcher(new AspectJExpressionPointcut("execution(* com.vow.springframework.bean.JdbcService.*(..))"));
 
         // 代理对象(Cglib2AopProxy)
         JdbcService proxy_cglib = (JdbcService) new Cglib2AopProxy(advisedSupport).getProxy();
