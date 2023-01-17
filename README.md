@@ -20,5 +20,5 @@ Studying of spring framework.
 17.数据类型转换                           data_type_conversion
 18.JDBC 功能整合                         implements_jdbc
 19.事务处理                              add_transaction
-20.框架实现
+20.框架实现                                 add_orm_framework
 21.框架整合到Spring Bean容器中
