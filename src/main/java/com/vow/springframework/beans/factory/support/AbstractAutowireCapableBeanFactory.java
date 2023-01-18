@@ -173,7 +173,9 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
                     // A 依赖 B，获取 B 的实例化
                     BeanReference beanReference = (BeanReference) value;
                     value = getBean(beanReference.getBeanName());
-                } else {    // 类型转换
+                }
+                // 类型转换
+                /*else {
                     Class<?> sourceType = value.getClass();
                     Class<?> targetType = (Class<?>) TypeUtil.getFieldType(bean.getClass(), name);
                     ConversionService conversionService = getConversionService();
@@ -182,7 +184,7 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
                             value = conversionService.convert(value, targetType);
                         }
                     }
-                }
+                }*/
                 // 属性填充
                 BeanUtil.setFieldValue(bean, name, value);
             }

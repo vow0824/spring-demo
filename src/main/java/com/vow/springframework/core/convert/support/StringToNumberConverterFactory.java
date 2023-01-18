@@ -1,6 +1,5 @@
 package com.vow.springframework.core.convert.support;
 
-import com.sun.istack.internal.Nullable;
 import com.vow.springframework.core.convert.converter.Converter;
 import com.vow.springframework.core.convert.converter.ConverterFactory;
 import com.vow.springframework.util.NumberUtils;
@@ -23,7 +22,6 @@ public class StringToNumberConverterFactory implements ConverterFactory<String, 
             this.targetType = targetType;
         }
 
-        @Nullable
         @Override
         public T convert(String source) {
             if (source == null) {

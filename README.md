@@ -21,4 +21,4 @@ Studying of spring framework.
 18.JDBC 功能整合                         implements_jdbc
 19.事务处理                              add_transaction
 20.框架实现                                 add_orm_framework
-21.框架整合到Spring Bean容器中
+21.框架整合到Spring Bean容器中              spring_orm_framework

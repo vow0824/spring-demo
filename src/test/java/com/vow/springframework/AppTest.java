@@ -1,15 +1,11 @@
 package com.vow.springframework;
 
 import com.alibaba.fastjson.JSON;
-import com.vow.middleware.mybatis.Resources;
-import com.vow.middleware.mybatis.SqlSession;
-import com.vow.middleware.mybatis.SqlSessionFactory;
-import com.vow.middleware.mybatis.SqlSessionFactoryBuilder;
+import com.vow.springframework.beans.factory.BeanFactory;
+import com.vow.springframework.context.support.ClassPathXmlApplicationContext;
+import com.vow.springframework.dao.IUserDao;
 import com.vow.springframework.po.User;
 import org.junit.Test;
-
-import java.io.Reader;
-import java.util.List;
 
 /**
  * @author: wushaopeng
@@ -18,47 +14,10 @@ import java.util.List;
 public class AppTest {
 
     @Test
-    public void test_queryUserInfoById() {
-        String resource = "mybatis-config-datasource.xml";
-        Reader reader;
-        try {
-            reader = Resources.getResourceAsReader(resource);
-            SqlSessionFactory sqlMapper = new SqlSessionFactoryBuilder().build(reader);
-
-            SqlSession session = sqlMapper.openSession();
-            try {
-                User user = session.selectOne("cn.bugstack.middleware.mybatis.test.dao.IUserDao.queryUserInfoById", 1L);
-                System.out.println(JSON.toJSONString(user));
-            } finally {
-                session.close();
-                reader.close();
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-    }
-
-    @Test
-    public void test_queryUserList() {
-        String resource = "mybatis-config-datasource.xml";
-        Reader reader;
-        try {
-            reader = Resources.getResourceAsReader(resource);
-            SqlSessionFactory sqlMapper = new SqlSessionFactoryBuilder().build(reader);
-
-            SqlSession session = sqlMapper.openSession();
-            try {
-                User req = new User();
-                req.setUserId("184172133");
-                List<User> userList = session.selectList("cn.bugstack.middleware.mybatis.test.dao.IUserDao.queryUserList", req);
-                System.out.println(JSON.toJSONString(userList));
-            } finally {
-                session.close();
-                reader.close();
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+    public void test_ClassPathXmlApplicationContext() {
+        BeanFactory beanFactory = new ClassPathXmlApplicationContext("classpath:spring.xml");
+        IUserDao userDao = beanFactory.getBean("IUserDao", IUserDao.class);
+        User user = userDao.queryUserInfoById(1L);
+        System.out.println("测试结果：" + JSON.toJSONString(user));
     }
 }

@@ -19,10 +19,8 @@ import java.util.Set;
  */
 public class ConversionServiceFactoryBean implements FactoryBean<ConversionService>, InitializingBean {
 
-    @Nullable
     private Set<?> converters;
 
-    @Nullable
     private GenericConversionService conversionService;
 
     @Override

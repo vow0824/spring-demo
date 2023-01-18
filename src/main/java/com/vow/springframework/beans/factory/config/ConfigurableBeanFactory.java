@@ -1,6 +1,5 @@
 package com.vow.springframework.beans.factory.config;
 
-import com.sun.istack.internal.Nullable;
 import com.vow.springframework.beans.factory.BeanFactory;
 import com.vow.springframework.beans.factory.HierarchicalBeanFactory;
 import com.vow.springframework.core.convert.ConversionService;
@@ -54,6 +53,5 @@ public interface ConfigurableBeanFactory extends HierarchicalBeanFactory, Single
      * Return the associated ConversionService, if any.
      * @since 3.0
      */
-    @Nullable
     ConversionService getConversionService();
 }
